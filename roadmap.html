@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyMind — Roadmap</title>
+  <link rel="stylesheet" href="./css/global.css" />
+  <link rel="stylesheet" href="./css/dashboard.css" />
+  <link rel="stylesheet" href="./css/roadmap.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ── Sidebar (same as dashboard) ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🧠</div>
+      <span class="sidebar-logo-text">StudyMind</span>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item" href="./dashboard.html">
+        <span class="nav-item-icon">📊</span>
+        Dashboard
+      </a>
+      <a class="nav-item active" href="./roadmap.html">
+        <span class="nav-item-icon">🗺️</span>
+        Roadmap
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-item-icon">📚</span>
+        Matérias
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-item-icon">✅</span>
+        Tarefas
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebar-avatar">U</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="sidebar-user-name">Usuário</div>
+          <div class="sidebar-user-role">Estudante</div>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="Auth.logout()">Sair da conta</button>
+    </div>
+  </aside>
+
+  <!-- ── Main content ── -->
+  <main class="main-content">
+
+    <div class="roadmap-header fade-in-up">
+      <h1 class="roadmap-title">Seu Roadmap de Estudos 🗺️</h1>
+      <p class="roadmap-subtitle" id="roadmap-meta">Carregando plano...</p>
+    </div>
+
+    <!-- Timeline renders here -->
+    <div id="roadmap-container"></div>
+
+  </main>
+</div>
+
+<script src="./js/api.js"></script>
+<script src="./js/auth.js"></script>
+<script src="./js/roadmap.js"></script>
+</body>
+</html>

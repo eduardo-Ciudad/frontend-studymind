@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyMind</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0a0a0f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Inter', sans-serif;
+      color: #8888aa;
+      font-size: 0.875rem;
+      gap: 12px;
+    }
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #22222e;
+      border-top-color: #6c63ff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="spinner"></div>
+  <span>Carregando StudyMind...</span>
+
+  <script src="./js/api.js"></script>
+  <script src="./js/auth.js"></script>
+  <script src="./js/router.js"></script>
+  <script>
+    (async () => {
+      if (!Auth.isAuthenticated()) {
+        window.location.href = '/login.html';
+        return;
+      }
+
+      const usuarioId = Auth.getUsuarioId();
+
+      try {
+        const status = await API.get(`/onboarding/status/${usuarioId}`);
+        if (status.onboardingConcluido) {
+          window.location.href = '/dashboard.html';
+        } else {
+          window.location.href = '/chat.html';
+        }
+      } catch (err) {
+        window.location.href = '/login.html';
+      }
+    })();
+  </script>
+</body>
+</html>

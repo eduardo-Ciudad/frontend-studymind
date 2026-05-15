@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyMind — Dashboard</title>
+  <link rel="stylesheet" href="./css/global.css" />
+  <link rel="stylesheet" href="./css/dashboard.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🧠</div>
+      <span class="sidebar-logo-text">StudyMind</span>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item active" href="./dashboard.html">
+        <span class="nav-item-icon">📊</span>
+        Dashboard
+      </a>
+      <a class="nav-item" href="./roadmap.html">
+        <span class="nav-item-icon">🗺️</span>
+        Roadmap
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-item-icon">📚</span>
+        Matérias
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-item-icon">✅</span>
+        Tarefas
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebar-avatar">U</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="sidebar-user-name">Usuário</div>
+          <div class="sidebar-user-role">Estudante</div>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="Auth.logout()">Sair da conta</button>
+    </div>
+  </aside>
+
+  <!-- ── Main content ── -->
+  <main class="main-content">
+
+    <!-- Header -->
+    <div class="dashboard-header fade-in-up">
+      <h1 class="greeting" id="greeting">Bom dia, Estudante 👋</h1>
+      <div class="dashboard-meta" id="dashboard-meta">
+        <span class="meta-badge">Carregando...</span>
+      </div>
+    </div>
+
+    <!-- Metrics row -->
+    <div class="metrics-grid fade-in-up">
+
+      <div class="card metric-card" id="metric-questoes">
+        <div class="metric-header">
+          <span class="metric-label">Total de Questões</span>
+          <span class="metric-icon">📝</span>
+        </div>
+        <div class="metric-value skeleton" style="width:80px;height:32px;border-radius:6px;">&nbsp;</div>
+        <div class="metric-sub skeleton" style="width:100px;height:14px;border-radius:4px;margin-top:6px;">&nbsp;</div>
+      </div>
+
+      <div class="card metric-card" id="metric-acerto">
+        <div class="metric-header">
+          <span class="metric-label">Taxa de Acerto</span>
+          <span class="metric-icon">🎯</span>
+        </div>
+        <div class="metric-value skeleton" style="width:60px;height:32px;border-radius:6px;">&nbsp;</div>
+        <div class="metric-sub skeleton" style="width:100px;height:14px;border-radius:4px;margin-top:6px;">&nbsp;</div>
+      </div>
+
+      <div class="card metric-card" id="metric-topicos">
+        <div class="metric-header">
+          <span class="metric-label">Tópicos Estudados</span>
+          <span class="metric-icon">📈</span>
+        </div>
+        <div class="metric-value skeleton" style="width:70px;height:32px;border-radius:6px;">&nbsp;</div>
+        <div class="metric-sub skeleton" style="width:100px;height:14px;border-radius:4px;margin-top:6px;">&nbsp;</div>
+      </div>
+
+    </div>
+
+    <!-- Content grid -->
+    <div class="content-grid">
+
+      <!-- Left: Tasks -->
+      <div>
+        <!-- Progress bar -->
+        <div class="week-progress" id="week-progress">
+          <div class="progress-info">
+            <div class="progress-text">Progresso da semana</div>
+            <div class="progress-nums" id="progress-nums">0 de 0 concluídas</div>
+            <div class="progress-bar" style="margin-top:8px;">
+              <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="progress-pct" id="progress-pct">0%</div>
+        </div>
+
+        <!-- Tasks header -->
+        <div class="section-header">
+          <h2 class="section-title">Tarefas desta semana</h2>
+          <span class="section-count" id="task-count">carregando...</span>
+        </div>
+
+        <!-- Tasks list -->
+        <div class="tasks-list" id="tasks-list">
+          <div class="skeleton task-skeleton"></div>
+          <div class="skeleton task-skeleton"></div>
+          <div class="skeleton task-skeleton"></div>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div class="right-column">
+
+        <!-- Weak topics -->
+        <div class="topics-card">
+          <div class="section-header">
+            <h2 class="section-title">Tópicos para focar</h2>
+            <span style="font-size:1rem;">⚡</span>
+          </div>
+          <div class="topics-list" id="topicos-list">
+            <div class="skeleton" style="height:48px;border-radius:6px;"></div>
+            <div class="skeleton" style="height:48px;border-radius:6px;"></div>
+            <div class="skeleton" style="height:48px;border-radius:6px;"></div>
+          </div>
+        </div>
+
+        <!-- Quick links -->
+        <div class="quick-links">
+          <div class="section-header">
+            <h2 class="section-title">Acesso rápido</h2>
+          </div>
+          <a class="quick-link" href="./roadmap.html">
+            <span class="quick-link-icon">🗺️</span>
+            Ver roadmap completo
+            <span class="quick-link-arrow">→</span>
+          </a>
+          <button class="quick-link" onclick="window.location.reload()">
+            <span class="quick-link-icon">🔄</span>
+            Atualizar dados
+            <span class="quick-link-arrow">→</span>
+          </button>
+          <button class="quick-link" onclick="Auth.logout()">
+            <span class="quick-link-icon">🚪</span>
+            Sair da conta
+            <span class="quick-link-arrow">→</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="./js/api.js"></script>
+<script src="./js/auth.js"></script>
+<script src="./js/dashboard.js"></script>
+</body>
+</html>

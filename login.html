@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyMind — Entrar</title>
+  <link rel="stylesheet" href="./css/global.css" />
+  <link rel="stylesheet" href="./css/login.css" />
+</head>
+<body>
+
+<div class="login-page">
+
+  <!-- ── Left: Branding ── -->
+  <div class="login-branding">
+    <canvas id="particles-canvas" class="branding-canvas"></canvas>
+
+    <div class="branding-content fade-in-up">
+      <div class="branding-logo">
+        <div class="branding-logo-icon">🧠</div>
+        <span class="branding-logo-text">StudyMind</span>
+      </div>
+
+      <h1 class="branding-headline">
+        Estude mais<br />
+        <span>inteligente</span>,<br />
+        não mais.
+      </h1>
+
+      <p class="branding-tagline">
+        Sua jornada para o vestibular, guiada por inteligência artificial.
+        Plano personalizado, progresso real.
+      </p>
+
+      <div class="branding-features">
+        <div class="branding-feature">
+          <span class="feature-dot"></span>
+          Plano de estudos adaptado ao seu perfil
+        </div>
+        <div class="branding-feature">
+          <span class="feature-dot"></span>
+          Acompanhamento semanal com IA
+        </div>
+        <div class="branding-feature">
+          <span class="feature-dot"></span>
+          Roadmap completo de 12 semanas
+        </div>
+        <div class="branding-feature">
+          <span class="feature-dot"></span>
+          Análise dos seus pontos fracos
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Right: Form ── -->
+  <div class="login-form-panel">
+    <div class="login-form-container fade-in-up">
+
+      <div class="login-form-header">
+        <div class="branding-logo" style="margin-bottom: var(--space-lg);">
+          <div class="branding-logo-icon" style="width:32px;height:32px;font-size:1rem;">🧠</div>
+          <span class="branding-logo-text">StudyMind</span>
+        </div>
+        <h2 class="login-form-title">Bem-vindo de volta</h2>
+        <p class="login-form-subtitle">Entre na sua conta ou crie uma nova</p>
+      </div>
+
+      <!-- Tab switcher -->
+      <div class="form-tabs">
+        <button class="form-tab active" data-tab="login">Entrar</button>
+        <button class="form-tab" data-tab="register">Criar conta</button>
+      </div>
+
+      <!-- ── Login form ── -->
+      <form class="auth-form active" id="login-form" novalidate>
+        <div id="login-alert" class="form-alert"></div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-email">Email</label>
+          <div class="input-wrapper">
+            <span class="input-icon">✉</span>
+            <input
+              class="form-input"
+              type="email"
+              id="login-email"
+              placeholder="seu@email.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <span class="form-error" id="login-email-error"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-senha">Senha</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input
+              class="form-input"
+              type="password"
+              id="login-senha"
+              placeholder="••••••••"
+              autocomplete="current-password"
+              required
+            />
+            <button type="button" class="input-action" id="toggle-login-senha" title="Mostrar senha">👁</button>
+          </div>
+          <span class="form-error" id="login-senha-error"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-submit" id="login-submit">
+          Entrar
+        </button>
+      </form>
+
+      <!-- ── Register form ── -->
+      <form class="auth-form" id="register-form" novalidate>
+        <div id="register-alert" class="form-alert"></div>
+
+        <div class="form-group">
+          <label class="form-label" for="register-nome">Nome completo</label>
+          <div class="input-wrapper">
+            <span class="input-icon">👤</span>
+            <input
+              class="form-input"
+              type="text"
+              id="register-nome"
+              placeholder="Seu nome"
+              autocomplete="name"
+              required
+            />
+          </div>
+          <span class="form-error" id="register-nome-error"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="register-email">Email</label>
+          <div class="input-wrapper">
+            <span class="input-icon">✉</span>
+            <input
+              class="form-input"
+              type="email"
+              id="register-email"
+              placeholder="seu@email.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <span class="form-error" id="register-email-error"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="register-senha">Senha</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input
+              class="form-input"
+              type="password"
+              id="register-senha"
+              placeholder="Mínimo 8 caracteres"
+              autocomplete="new-password"
+              required
+            />
+            <button type="button" class="input-action" id="toggle-register-senha" title="Mostrar senha">👁</button>
+          </div>
+          <span class="form-error" id="register-senha-error"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-submit" id="register-submit">
+          Criar conta
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="./js/api.js"></script>
+<script src="./js/auth.js"></script>
+<script src="./js/login.js"></script>
+</body>
+</html>
