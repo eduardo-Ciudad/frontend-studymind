@@ -175,7 +175,7 @@ function renderTarefas(tarefas) {
     <div class="task-item" id="task-${t.id}">
       <div class="task-check" onclick="toggleTask(${t.id}, this)" title="Marcar como concluída">
       </div>
-      <div class="task-body">
+      <div class="task-body task-body-clickable" onclick="openTarefaModal(${t.id})" title="Ver detalhes">
         <div class="task-name">${escapeHtml(t.descricao || t.topicoNome || 'Tarefa')}</div>
         <div class="task-meta">${escapeHtml(t.materiaNome || '')}${t.meta ? ` · Meta: ${t.meta} questões` : ''}</div>
       </div>
@@ -195,6 +195,60 @@ function renderTarefasError() {
         <p style="font-size:.82rem;">Não foi possível buscar suas tarefas. Tente recarregar a página.</p>
       </div>`;
   }
+}
+
+/* ── Tarefa modal ── */
+async function openTarefaModal(tarefaId) {
+  let overlay = document.getElementById('tarefa-modal-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'tarefa-modal-overlay';
+    overlay.className = 'tarefa-modal-overlay';
+    overlay.innerHTML = `
+      <div class="tarefa-modal" id="tarefa-modal" role="dialog" aria-modal="true">
+        <button class="tarefa-modal-close" onclick="closeTarefaModal()" aria-label="Fechar">✕</button>
+        <div id="tarefa-modal-body"></div>
+      </div>`;
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeTarefaModal(); });
+    document.body.appendChild(overlay);
+  }
+
+  const bodyEl = document.getElementById('tarefa-modal-body');
+  bodyEl.innerHTML = `
+    <div class="tarefa-modal-loading">
+      <div class="tarefa-modal-spinner"></div>
+      <span>Carregando detalhes...</span>
+    </div>`;
+
+  overlay.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+
+  try {
+    const data = await API.get(`/aula/tarefa/${tarefaId}/descricao`);
+
+    const passosHtml = (data.passos || []).map((p, i) =>
+      `<li><span class="tarefa-passo-num">${i + 1}</span>${escapeHtml(p)}</li>`
+    ).join('');
+
+    bodyEl.innerHTML = `
+      <div class="tarefa-modal-titulo">${escapeHtml(data.titulo || 'Tarefa')}</div>
+      <p class="tarefa-modal-desc">${escapeHtml(data.descricaoDetalhada || '')}</p>
+      ${passosHtml ? `
+        <div class="tarefa-passos-titulo">Como realizar</div>
+        <ol class="tarefa-passos-list">${passosHtml}</ol>` : ''}`;
+  } catch (err) {
+    bodyEl.innerHTML = `
+      <div class="tarefa-modal-error">
+        <div style="font-size:2rem;margin-bottom:12px;">⚠️</div>
+        <p style="color:var(--text-secondary)">Não foi possível carregar os detalhes da tarefa.</p>
+      </div>`;
+  }
+}
+
+function closeTarefaModal() {
+  const overlay = document.getElementById('tarefa-modal-overlay');
+  if (overlay) overlay.classList.remove('visible');
+  document.body.style.overflow = '';
 }
 
 /* ── Task interactions ── */

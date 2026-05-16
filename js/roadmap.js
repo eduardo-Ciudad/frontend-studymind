@@ -149,6 +149,17 @@ function renderTaskRow(t) {
   const badgeStyle = `color:${cfg.color};background:${cfg.bg};border:1px solid ${cfg.color}33;`;
   const meta = t.meta ? `<span class="task-meta-text">Meta: ${t.meta}</span>` : '';
 
+  if (t.topicoNome) {
+    const url = `/aula.html?topicoNome=${encodeURIComponent(t.topicoNome)}&materiaNome=${encodeURIComponent(t.materiaNome || '')}&meta=${encodeURIComponent(t.meta || 5)}&nivel=${encodeURIComponent(t.nivel || 'MEDIO')}`;
+    return `
+      <div class="task-row task-row-clickable" onclick="window.location.href='${url}'">
+        <span class="task-arrow">→</span>
+        <span class="task-topic">${escapeHtml(t.topicoNome || t.descricao || 'Tópico')}</span>
+        ${tipo ? `<span class="task-tipo" style="${badgeStyle}">${escapeHtml(cfg.label)}</span>` : ''}
+        ${meta}
+      </div>`;
+  }
+
   return `
     <div class="task-row">
       <span class="task-arrow">→</span>

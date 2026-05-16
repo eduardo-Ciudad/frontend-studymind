@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyMind — Aula</title>
+  <link rel="stylesheet" href="./css/global.css" />
+  <link rel="stylesheet" href="./css/dashboard.css" />
+  <link rel="stylesheet" href="./css/aula.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🧠</div>
+      <span class="sidebar-logo-text">StudyMind</span>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item" href="./dashboard.html">
+        <span class="nav-item-icon">📊</span>
+        Dashboard
+      </a>
+      <a class="nav-item active" href="./roadmap.html">
+        <span class="nav-item-icon">🗺️</span>
+        Roadmap
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-item-icon">📚</span>
+        Matérias
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-item-icon">✅</span>
+        Tarefas
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebar-avatar">U</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="sidebar-user-name">Usuário</div>
+          <div class="sidebar-user-role">Estudante</div>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="Auth.logout()">Sair da conta</button>
+    </div>
+  </aside>
+
+  <!-- ── Main content ── -->
+  <main class="main-content">
+
+    <!-- Back button -->
+    <button class="aula-back" onclick="history.back()">← Voltar ao Roadmap</button>
+
+    <!-- Loading -->
+    <div id="aula-loading" class="aula-loading">
+      <div class="spinner"></div>
+      <span>Carregando conteúdo da aula...</span>
+    </div>
+
+    <!-- Content (hidden until loaded) -->
+    <div id="aula-content" style="display:none;">
+
+      <!-- Header -->
+      <div class="aula-header fade-in-up">
+        <div>
+          <span class="aula-materia-badge" id="aula-materia-badge"></span>
+          <span class="aula-nivel-badge" id="aula-nivel-badge"></span>
+        </div>
+        <h1 class="aula-title" id="aula-title">Carregando...</h1>
+      </div>
+
+      <!-- Content card -->
+      <div class="aula-content-card fade-in-up">
+        <div class="aula-content-text" id="aula-texto"></div>
+
+        <div class="aula-recomendacoes" id="aula-recomendacoes">
+          <div class="aula-recomendacoes-title">Recomendações de estudo</div>
+          <ul class="aula-recomendacoes-list" id="aula-recomendacoes-list"></ul>
+        </div>
+      </div>
+
+      <!-- Start questions button -->
+      <button class="btn-iniciar" id="btn-iniciar" style="display:none;" onclick="iniciarQuestoes()">
+        Iniciar Questões →
+      </button>
+
+      <!-- Questions area -->
+      <div class="questoes-area" id="questoes-area">
+
+        <!-- Progress -->
+        <div class="questoes-progress" id="questoes-progress">
+          <div class="questoes-progress-info">
+            <span id="progress-label">0 de 0 respondidas</span>
+          </div>
+          <div class="questoes-progress-bar">
+            <div class="questoes-progress-fill" id="questoes-progress-fill" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- Question card (rendered by JS) -->
+        <div id="questao-card" class="questao-card"></div>
+
+        <!-- Result screen -->
+        <div class="resultado-screen" id="resultado-screen"></div>
+
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="./js/api.js"></script>
+<script src="./js/auth.js"></script>
+<script src="./js/aula.js"></script>
+</body>
+</html>

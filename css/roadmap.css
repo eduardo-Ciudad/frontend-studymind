@@ -185,6 +185,26 @@
   padding-left: 32px;
 }
 
+.task-row-clickable {
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  padding-right: var(--space-sm);
+  margin-right: calc(-1 * var(--space-sm));
+  transition: background var(--transition), color var(--transition);
+}
+
+.task-row-clickable:hover {
+  background: var(--bg-hover);
+}
+
+.task-row-clickable:hover .task-topic {
+  color: var(--accent-secondary);
+}
+
+.task-row-clickable:hover .task-arrow {
+  color: var(--accent-secondary);
+}
+
 .task-arrow {
   color: var(--text-muted);
   font-size: 0.72rem;
