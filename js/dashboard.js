@@ -59,9 +59,28 @@ async function loadDashboard() {
 /* ── Tasks ── */
 async function loadTarefas() {
   try {
-    const tarefas = await API.get(`/tarefas/usuario/${usuarioId}?status=PENDENTE`);
-    const semanaFilter = tarefas.filter(t => t.semana === semanaAtual || !t.semana);
-    renderTarefas(semanaFilter.length ? semanaFilter : tarefas.slice(0, 8));
+    const [pendentes, concluidas] = await Promise.all([
+      API.get(`/tarefas/usuario/${usuarioId}?status=PENDENTE`),
+      API.get(`/tarefas/usuario/${usuarioId}?status=CONCLUIDA`),
+    ]);
+
+    const filterSemana = arr => arr.filter(t => t.semana === semanaAtual || !t.semana);
+    const pendentesSemana = filterSemana(pendentes);
+    const concluidasSemana = filterSemana(concluidas);
+
+    const tarefasExibir = pendentesSemana.length || concluidasSemana.length
+      ? pendentesSemana
+      : pendentes.slice(0, 8);
+
+    const totalInicial = (pendentesSemana.length || concluidasSemana.length)
+      ? pendentesSemana.length + concluidasSemana.length
+      : pendentes.slice(0, 8).length;
+
+    const concluidasIniciais = (pendentesSemana.length || concluidasSemana.length)
+      ? concluidasSemana.length
+      : 0;
+
+    renderTarefas(tarefasExibir, concluidasIniciais, totalInicial);
   } catch (err) {
     console.error('Tarefas error:', err);
     renderTarefasError();
@@ -99,11 +118,19 @@ function updatePlanMeta(plano, semana, criadoEm) {
 }
 
 function renderMetrics(dados) {
-  setMetric('metric-questoes', formatNum(dados.totalQuestoes ?? 0), 'questões respondidas');
-  setMetric('metric-acerto', `${Math.round(dados.taxaAcerto ?? 0)}%`, 'taxa de acerto', dados.taxaAcerto >= 70 ? 'success' : '');
+  setMetric('metric-questoes', 
+    formatNum(dados.totalRespostas ?? 0), 
+    'questões respondidas');
+  
+  setMetric('metric-acerto', 
+    `${Math.round(dados.taxaAcertoGeral ?? 0)}%`, 
+    'taxa de acerto', 
+    (dados.taxaAcertoGeral ?? 0) >= 70 ? 'success' : '');
+  
   setMetric('metric-topicos',
-    `${dados.topicosEstudados ?? 0}/${dados.totalTopicos ?? 0}`,
-    'tópicos estudados', 'accent');
+    `${dados.desempenhoPorTopico?.length ?? 0}`,
+    'tópicos estudados',
+    'accent');
 }
 
 function setMetric(id, value, sub, cls = '') {
@@ -152,12 +179,12 @@ function renderTopicos(topicos) {
   }).join('');
 }
 
-function renderTarefas(tarefas) {
+function renderTarefas(tarefas, concluidasIniciais = 0, totalInicial = 0) {
   const container = document.getElementById('tasks-list');
   const progressContainer = document.getElementById('week-progress');
   if (!container) return;
 
-  if (!tarefas.length) {
+  if (!tarefas.length && concluidasIniciais === 0) {
     container.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon">✅</div>
@@ -168,8 +195,10 @@ function renderTarefas(tarefas) {
     return;
   }
 
-  updateTaskCount(tarefas.length);
-  updateProgress(0, tarefas.length);
+  const total = totalInicial || tarefas.length;
+  updateTaskCount(total);
+  completedCount = concluidasIniciais;
+  updateProgress(concluidasIniciais, total);
 
   container.innerHTML = tarefas.map(t => `
     <div class="task-item" id="task-${t.id}">

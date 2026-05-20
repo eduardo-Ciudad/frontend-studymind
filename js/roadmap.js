@@ -150,9 +150,9 @@ function renderTaskRow(t) {
   const meta = t.meta ? `<span class="task-meta-text">Meta: ${t.meta}</span>` : '';
 
   if (t.topicoNome) {
-    const url = `/aula.html?topicoNome=${encodeURIComponent(t.topicoNome)}&materiaNome=${encodeURIComponent(t.materiaNome || '')}&meta=${encodeURIComponent(t.meta || 5)}&nivel=${encodeURIComponent(t.nivel || 'MEDIO')}`;
+    const args = `'${escapeAttr(t.topicoNome)}','${escapeAttr(t.materiaNome || '')}',${t.meta || 5},'${escapeAttr(t.nivel || 'MEDIO')}'`;
     return `
-      <div class="task-row task-row-clickable" onclick="window.location.href='${url}'">
+      <div class="task-row task-row-clickable" onclick="startAula(${args})">
         <span class="task-arrow">→</span>
         <span class="task-topic">${escapeHtml(t.topicoNome || t.descricao || 'Tópico')}</span>
         ${tipo ? `<span class="task-tipo" style="${badgeStyle}">${escapeHtml(cfg.label)}</span>` : ''}
@@ -167,6 +167,34 @@ function renderTaskRow(t) {
       ${tipo ? `<span class="task-tipo" style="${badgeStyle}">${escapeHtml(cfg.label)}</span>` : ''}
       ${meta}
     </div>`;
+}
+
+async function startAula(topicoNome, materiaNome, meta, nivel) {
+  const url = `/aula.html?topicoNome=${encodeURIComponent(topicoNome)}&materiaNome=${encodeURIComponent(materiaNome)}&meta=${encodeURIComponent(meta)}&nivel=${encodeURIComponent(nivel)}`;
+  const usuarioId = Auth.getUsuarioId();
+
+  try {
+    const tarefas = await API.get(`/tarefas/usuario/${usuarioId}?status=PENDENTE`);
+    const tarefa = tarefas.find(t =>
+      (t.topicoNome || '').toLowerCase() === topicoNome.toLowerCase()
+    );
+    if (tarefa) {
+      try {
+        await API.put(`/tarefas/${tarefa.id}`, { status: 'CONCLUIDA' });
+      } catch (err) {
+        console.error('Erro ao concluir tarefa:', err);
+      }
+    }
+  } catch (err) {
+    console.error('Erro ao buscar tarefas:', err);
+  }
+
+  window.location.href = url;
+}
+
+function escapeAttr(str) {
+  if (!str) return '';
+  return String(str).replace(/'/g, "\\'");
 }
 
 function showError(container, msg) {
