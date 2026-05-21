@@ -192,7 +192,12 @@ function responder(altIdx) {
   if (feedbackEl) {
     feedbackEl.className = `questao-feedback visible ${acertou ? 'feedback-correta' : 'feedback-errada'}`;
     feedbackEl.innerHTML = `
-      <div class="feedback-icon ${acertou ? 'ok' : 'nok'}">${acertou ? '✓ Correto!' : '✗ Errado!'}</div>
+      <div class="feedback-icon ${acertou ? 'ok' : 'nok'}">
+        ${acertou
+          ? `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="vertical-align:middle;margin-right:6px"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 8l2.5 2.5 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Correto!`
+          : `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="vertical-align:middle;margin-right:6px"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Errado!`
+        }
+      </div>
       <div>${escapeHtml(q.explicacao || '')}</div>`;
   }
 
@@ -232,11 +237,15 @@ async function mostrarResultado() {
 
   const total = questoes.length;
   const pct = total > 0 ? Math.round((acertos / total) * 100) : 0;
-  const emoji = pct >= 70 ? '🎉' : pct >= 40 ? '📚' : '💪';
   const msg = pct >= 70 ? 'Excelente desempenho!' : pct >= 40 ? 'Bom progresso, continue!' : 'Continue praticando!';
+  const resultIcon = pct >= 70
+    ? `<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" stroke="currentColor" stroke-width="2.5"/><path d="M15 24l7 7 11-14" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+    : pct >= 40
+    ? `<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="10" y="8" width="28" height="32" rx="3" stroke="currentColor" stroke-width="2.5"/><line x1="17" y1="18" x2="31" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="24" x2="31" y2="24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="30" x2="25" y2="30" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`
+    : `<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" stroke="currentColor" stroke-width="2.5"/><line x1="24" y1="15" x2="24" y2="28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="34" r="2" fill="currentColor"/></svg>`;
 
   resultadoEl.innerHTML = `
-    <div class="resultado-emoji">${emoji}</div>
+    <div class="resultado-emoji">${resultIcon}</div>
     <div class="resultado-titulo">${msg}</div>
     <div class="resultado-pontuacao">${acertos}/${total}</div>
     <div class="resultado-sub">${pct}% de aproveitamento</div>
@@ -265,7 +274,13 @@ function showError(msg) {
     contentEl.style.display = 'block';
     contentEl.innerHTML = `
       <div class="aula-error">
-        <div class="aula-error-icon">⚠️</div>
+        <div class="aula-error-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="21" stroke="currentColor" stroke-width="2.5"/>
+            <line x1="24" y1="15" x2="24" y2="28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="24" cy="34" r="2" fill="currentColor"/>
+          </svg>
+        </div>
         <p style="color:var(--text-secondary);margin-bottom:var(--space-lg)">${escapeHtml(msg)}</p>
         <button class="aula-back" onclick="history.back()">← Voltar</button>
       </div>`;
@@ -273,7 +288,11 @@ function showError(msg) {
 }
 
 function showToastAula(msg, type) {
-  const icons = { error: '⚠', success: '✓', warn: 'ℹ' };
+  const icons = {
+    error: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><line x1="8" y1="5" x2="8" y2="9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11.5" r=".8" fill="currentColor"/></svg>`,
+    success: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 8l2.5 2.5 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    warn: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><line x1="8" y1="7" x2="8" y2="11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="4.5" r=".8" fill="currentColor"/></svg>`,
+  };
   let container = document.querySelector('.toast-container');
   if (!container) {
     container = document.createElement('div');
@@ -282,7 +301,7 @@ function showToastAula(msg, type) {
   }
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
-  toast.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ'}</span><span>${escapeHtml(msg)}</span>`;
+  toast.innerHTML = `<span class="toast-icon">${icons[type] || icons.warn}</span><span>${escapeHtml(msg)}</span>`;
   container.appendChild(toast);
   setTimeout(() => toast.remove(), 4000);
 }

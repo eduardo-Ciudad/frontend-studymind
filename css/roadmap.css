@@ -165,9 +165,13 @@
 }
 
 .subject-icon {
-  font-size: 1rem;
-  width: 24px;
-  text-align: center;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-muted);
 }
 
 .subject-name {
@@ -293,7 +297,7 @@
   color: var(--text-muted);
 }
 
-.roadmap-error-icon { font-size: 3rem; margin-bottom: var(--space-md); }
+.roadmap-error-icon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md); color: var(--text-muted); }
 
 /* Stagger animation delays */
 .week-block:nth-child(1)  { animation-delay: 0.02s; }

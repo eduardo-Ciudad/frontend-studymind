@@ -1,18 +1,4 @@
-const MATERIA_ICONS = {
-  'Matemática': '📐',
-  'Física': '⚛️',
-  'Química': '🧪',
-  'Biologia': '🧬',
-  'Português': '📖',
-  'Literatura': '📖',
-  'Redação': '✏️',
-  'História': '🏛️',
-  'Geografia': '🌍',
-  'Sociologia': '👥',
-  'Filosofia': '💭',
-  'Inglês': '🌐',
-  'Espanhol': '🌐',
-};
+const SUBJECT_ICON = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="12" height="14" rx="1.5" stroke="currentColor" stroke-width="1.4"/><line x1="5" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="5" y1="9" x2="11" y2="9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="5" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`;
 
 const TIPO_CONFIG = {
   'REVISAO':    { label: 'Revisão',   color: '#6c63ff', bg: 'rgba(108,99,255,0.12)' },
@@ -101,7 +87,12 @@ function renderRoadmap(container, conteudo, semanaAtual, criadoEm) {
     html += `
       <div class="week-block ${statusClass}">
         <div class="week-dot">
-          ${isCurrent ? '★' : isPast ? '✓' : '<div class="week-dot-inner"></div>'}
+          ${isCurrent
+          ? `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><polygon points="5,1 6.2,3.8 9.5,4.1 7.1,6.3 7.9,9.5 5,7.8 2.1,9.5 2.9,6.3 0.5,4.1 3.8,3.8" fill="white"/></svg>`
+          : isPast
+          ? `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+          : '<div class="week-dot-inner"></div>'
+        }
         </div>
         <div class="week-header">
           <span class="week-label">Semana ${num}</span>
@@ -136,7 +127,7 @@ function renderSemanaContent(semana) {
   return Object.entries(byMateria).map(([materia, tasks]) => `
     <div class="subject-group">
       <div class="subject-header">
-        <span class="subject-icon">${MATERIA_ICONS[materia] || '📚'}</span>
+        <span class="subject-icon">${SUBJECT_ICON}</span>
         <span class="subject-name">${escapeHtml(materia)}</span>
       </div>
       ${tasks.map(t => renderTaskRow(t)).join('')}
@@ -210,7 +201,13 @@ function escapeAttr(str) {
 function showError(container, msg) {
   container.innerHTML = `
     <div class="roadmap-error">
-      <div class="roadmap-error-icon">⚠️</div>
+      <div class="roadmap-error-icon">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="2"/>
+          <line x1="20" y1="13" x2="20" y2="22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="20" cy="28" r="1.5" fill="currentColor"/>
+        </svg>
+      </div>
       <p style="color:var(--text-secondary)">${escapeHtml(msg)}</p>
       <button class="btn btn-secondary" style="margin-top:16px" onclick="window.location.reload()">
         Tentar novamente

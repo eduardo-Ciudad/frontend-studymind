@@ -340,8 +340,13 @@
 .resultado-screen.visible { display: block; }
 
 .resultado-emoji {
-  font-size: 3.5rem;
-  margin-bottom: var(--space-lg);
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-lg);
+  color: var(--accent-secondary);
 }
 
 .resultado-titulo {
@@ -396,8 +401,13 @@
 }
 
 .aula-error-icon {
-  font-size: 3rem;
-  margin-bottom: var(--space-md);
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-md);
+  color: var(--text-muted);
 }
 
 /* ── Spinner ── */

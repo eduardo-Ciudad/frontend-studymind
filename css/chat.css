@@ -39,7 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  color: #fff;
 }
 
 .chat-header-progress {
@@ -119,7 +119,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   flex-shrink: 0;
   margin-top: 2px;
 }
@@ -190,7 +192,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
   flex-shrink: 0;
 }
 
@@ -228,8 +232,13 @@
 }
 
 .completion-icon {
-  font-size: 3rem;
-  margin-bottom: var(--space-md);
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-md);
+  color: var(--accent-secondary);
   animation: pulse 2s ease infinite;
 }
 
@@ -300,7 +309,6 @@
   background: var(--accent-primary);
   border: none;
   color: #fff;
-  font-size: 1.125rem;
   cursor: pointer;
   display: flex;
   align-items: center;

@@ -37,7 +37,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  color: #fff;
   flex-shrink: 0;
 }
 
@@ -92,9 +92,11 @@
 }
 
 .nav-item-icon {
-  font-size: 1rem;
-  width: 20px;
-  text-align: center;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
@@ -249,7 +251,11 @@
 }
 
 .metric-icon {
-  font-size: 1.125rem;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
 }
 
 .metric-value {
@@ -467,8 +473,13 @@
 }
 
 .empty-state-icon {
-  font-size: 2.5rem;
-  margin-bottom: var(--space-md);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-md);
+  color: var(--text-muted);
 }
 
 .empty-state-title {
@@ -578,7 +589,7 @@
   color: var(--text-primary);
 }
 
-.quick-link-icon { font-size: 1rem; }
+.quick-link-icon { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .quick-link-arrow { margin-left: auto; color: var(--text-muted); }
 
 /* Skeleton */

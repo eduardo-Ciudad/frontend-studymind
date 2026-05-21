@@ -2,7 +2,7 @@ let usuarioId;
 let isWaiting = false;
 let onboardingDone = false;
 
-const WELCOME_MESSAGE = `Olá! Sou o assistente do StudyMind 🧠
+const WELCOME_MESSAGE = `Olá! Sou o assistente do StudyMind.
 Vou te ajudar a criar um plano de estudos personalizado para o vestibular.
 Me conta: qual vestibular você está se preparando?`;
 
@@ -81,7 +81,7 @@ function appendMessage(role, text) {
 
   const avatar = document.createElement('div');
   avatar.className = 'message-avatar';
-  avatar.textContent = role === 'ai' ? '🧠' : '👤';
+  avatar.textContent = role === 'ai' ? 'SM' : 'Eu';
 
   const content = document.createElement('div');
   content.className = 'message-content';
@@ -113,7 +113,7 @@ function showTyping(visible) {
     el.id = 'typing-indicator';
     el.className = 'typing-indicator';
     el.innerHTML = `
-      <div class="typing-avatar">🧠</div>
+      <div class="typing-avatar">SM</div>
       <div class="typing-dots">
         <div class="typing-dot"></div>
         <div class="typing-dot"></div>
@@ -133,10 +133,15 @@ async function showCompletion() {
   const card = document.createElement('div');
   card.className = 'completion-card';
   card.innerHTML = `
-    <div class="completion-icon">🎉</div>
+    <div class="completion-icon">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
+        <path d="M12 20l6 6 10-12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
     <div class="completion-title">Plano criado com sucesso!</div>
     <p class="completion-desc">
-      Seu plano de estudos personalizado está pronto. Vamos começar sua jornada para o vestibular!
+      Seu plano de estudos personalizado está pronto. Acesse o dashboard para começar.
     </p>
     <button class="btn btn-primary btn-lg" id="go-to-dashboard">
       Ver meu plano de estudos →

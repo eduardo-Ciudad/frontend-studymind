@@ -151,7 +151,7 @@ function showFieldError(id, msg) {
 }
 
 function showAlert(el, msg) {
-  el.innerHTML = `<span>⚠</span><span>${msg}</span>`;
+  el.innerHTML = `<span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.4"/><line x1="7" y1="4.5" x2="7" y2="8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="7" cy="10" r=".7" fill="currentColor"/></svg></span><span>${msg}</span>`;
   el.className = 'form-alert error';
 }
 
@@ -167,7 +167,9 @@ function clearAlerts() {
 function togglePassword(input, btn) {
   const isText = input.type === 'text';
   input.type = isText ? 'password' : 'text';
-  btn.textContent = isText ? '👁' : '🙈';
+  btn.innerHTML = isText
+    ? `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 8c0 0 2.5-4.5 7-4.5S15 8 15 8s-2.5 4.5-7 4.5S1 8 1 8z" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/></svg>`
+    : `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 8c0 0 2.5-4.5 7-4.5S15 8 15 8s-2.5 4.5-7 4.5S1 8 1 8z" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/><line x1="2" y1="2" x2="14" y2="14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`;
 }
 
 function setLoading(btn, loading) {

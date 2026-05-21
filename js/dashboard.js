@@ -92,7 +92,7 @@ function setGreeting(nome) {
   const hour = new Date().getHours();
   const saudacao = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite';
   const el = document.getElementById('greeting');
-  if (el) el.textContent = `${saudacao}, ${capitalize(nome)} 👋`;
+  if (el) el.textContent = `${saudacao}, ${capitalize(nome)}`;
 }
 
 function setUserDisplay(nome) {
@@ -187,7 +187,12 @@ function renderTarefas(tarefas, concluidasIniciais = 0, totalInicial = 0) {
   if (!tarefas.length && concluidasIniciais === 0) {
     container.innerHTML = `
       <div class="empty-state">
-        <div class="empty-state-icon">✅</div>
+        <div class="empty-state-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="2"/>
+            <path d="M13 20l5 5 9-10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
         <div class="empty-state-title">Tudo em dia!</div>
         <p style="font-size:.82rem;">Você não tem tarefas pendentes esta semana.</p>
       </div>`;
@@ -219,7 +224,13 @@ function renderTarefasError() {
   if (container) {
     container.innerHTML = `
       <div class="empty-state">
-        <div class="empty-state-icon">⚠</div>
+        <div class="empty-state-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="2"/>
+            <line x1="20" y1="13" x2="20" y2="22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="20" cy="28" r="1.5" fill="currentColor"/>
+          </svg>
+        </div>
         <div class="empty-state-title">Erro ao carregar tarefas</div>
         <p style="font-size:.82rem;">Não foi possível buscar suas tarefas. Tente recarregar a página.</p>
       </div>`;
@@ -268,7 +279,13 @@ async function openTarefaModal(tarefaId) {
   } catch (err) {
     bodyEl.innerHTML = `
       <div class="tarefa-modal-error">
-        <div style="font-size:2rem;margin-bottom:12px;">⚠️</div>
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:var(--text-muted);">
+          <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="2"/>
+            <line x1="20" y1="13" x2="20" y2="22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="20" cy="28" r="1.5" fill="currentColor"/>
+          </svg>
+        </div>
         <p style="color:var(--text-secondary)">Não foi possível carregar os detalhes da tarefa.</p>
       </div>`;
   }
@@ -344,10 +361,14 @@ function showToast(msg, type = 'info') {
     container.className = 'toast-container';
     document.body.appendChild(container);
   }
-  const icons = { error: '⚠', success: '✓', info: 'ℹ' };
+  const icons = {
+    error: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><line x1="8" y1="5" x2="8" y2="9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11.5" r=".8" fill="currentColor"/></svg>`,
+    success: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 8l2.5 2.5 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    info: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><line x1="8" y1="7" x2="8" y2="11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="4.5" r=".8" fill="currentColor"/></svg>`,
+  };
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
-  toast.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ'}</span><span>${escapeHtml(msg)}</span>`;
+  toast.innerHTML = `<span class="toast-icon">${icons[type] || icons.info}</span><span>${escapeHtml(msg)}</span>`;
   container.appendChild(toast);
   setTimeout(() => toast.remove(), 4000);
 }
