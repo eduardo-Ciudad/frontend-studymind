@@ -150,7 +150,7 @@ function renderTaskRow(t) {
   const meta = t.meta ? `<span class="task-meta-text">Meta: ${t.meta}</span>` : '';
 
   if (t.topicoNome) {
-    const args = `'${escapeAttr(t.topicoNome)}','${escapeAttr(t.materiaNome || '')}',${t.meta || 5},'${escapeAttr(t.nivel || 'MEDIO')}'`;
+    const args = `this,'${escapeAttr(t.topicoNome)}','${escapeAttr(t.materiaNome || '')}',${t.meta || 5},'${escapeAttr(t.nivel || 'MEDIO')}'`;
     return `
       <div class="task-row task-row-clickable" onclick="startAula(${args})">
         <span class="task-arrow">→</span>
@@ -169,9 +169,15 @@ function renderTaskRow(t) {
     </div>`;
 }
 
-async function startAula(topicoNome, materiaNome, meta, nivel) {
+async function startAula(el, topicoNome, materiaNome, meta, nivel) {
   const url = `/aula.html?topicoNome=${encodeURIComponent(topicoNome)}&materiaNome=${encodeURIComponent(materiaNome)}&meta=${encodeURIComponent(meta)}&nivel=${encodeURIComponent(nivel)}`;
   const usuarioId = Auth.getUsuarioId();
+
+  const originalHtml = el.innerHTML;
+  el.style.pointerEvents = 'none';
+  el.style.opacity = '0.6';
+  const topicEl = el.querySelector('.task-topic');
+  if (topicEl) topicEl.textContent = 'Abrindo aula...';
 
   try {
     const tarefas = await API.get(`/tarefas/usuario/${usuarioId}?status=PENDENTE`);
@@ -187,6 +193,10 @@ async function startAula(topicoNome, materiaNome, meta, nivel) {
     }
   } catch (err) {
     console.error('Erro ao buscar tarefas:', err);
+    el.innerHTML = originalHtml;
+    el.style.pointerEvents = '';
+    el.style.opacity = '';
+    return;
   }
 
   window.location.href = url;
@@ -209,14 +219,6 @@ function showError(container, msg) {
 }
 
 /* ── Helpers ── */
-function calcSemanaAtual(criadoEm) {
-  if (!criadoEm) return 1;
-  const inicio = new Date(criadoEm);
-  const agora = new Date();
-  const diffDias = Math.floor((agora - inicio) / (1000 * 60 * 60 * 24));
-  return Math.min(Math.max(Math.ceil(diffDias / 7), 1), 12);
-}
-
 function calcDiasRestantes(dataExame) {
   const exame = new Date(dataExame);
   const agora = new Date();

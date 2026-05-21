@@ -165,11 +165,11 @@ function renderTopicos(topicos) {
   }
 
   container.innerHTML = topicos.slice(0, 5).map(t => {
-    const pct = Math.round(t.percentualAcerto ?? t.acerto ?? 0);
+    const pct = Math.round(t.taxaAcerto ?? 0);
     return `
       <div class="topic-item">
         <div class="topic-row">
-          <span class="topic-name">${escapeHtml(t.nome || t.topico || 'Tópico')}</span>
+          <span class="topic-name">${escapeHtml(t.topicoNome || 'Tópico')}</span>
           <span class="topic-pct">${pct}%</span>
         </div>
         <div class="topic-bar">
@@ -196,7 +196,7 @@ function renderTarefas(tarefas, concluidasIniciais = 0, totalInicial = 0) {
   }
 
   const total = totalInicial || tarefas.length;
-  updateTaskCount(total);
+  updateTaskCount(total, tarefas.length);
   completedCount = concluidasIniciais;
   updateProgress(concluidasIniciais, total);
 
@@ -302,11 +302,11 @@ async function toggleTask(id, checkEl) {
   }
 }
 
-function updateTaskCount(total) {
+function updateTaskCount(total, pendentes) {
   totalCount = total;
   completedCount = 0;
   const el = document.getElementById('task-count');
-  if (el) el.textContent = `${total} pendente${total !== 1 ? 's' : ''}`;
+  if (el) el.textContent = `${pendentes} pendente${pendentes !== 1 ? 's' : ''}`;
 }
 
 function updateProgress(done, total) {
@@ -353,14 +353,6 @@ function showToast(msg, type = 'info') {
 }
 
 /* ── Helpers ── */
-function calcSemanaAtual(criadoEm) {
-  if (!criadoEm) return 1;
-  const inicio = new Date(criadoEm);
-  const agora = new Date();
-  const diffDias = Math.floor((agora - inicio) / (1000 * 60 * 60 * 24));
-  return Math.min(Math.max(Math.ceil(diffDias / 7), 1), 12);
-}
-
 function calcDiasRestantes(dataExame) {
   const exame = new Date(dataExame);
   const agora = new Date();

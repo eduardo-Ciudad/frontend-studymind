@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Remove-Item \"c:\\\\Users\\\\eduar\\\\studyMind-frontend\\\\js\\\\router.js\")"
+    ]
+  }
+}

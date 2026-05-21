@@ -16,9 +16,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
+  const usuarioId = Auth.getUsuarioId();
+
+  try {
+    const status = await API.get(`/onboarding/status/${usuarioId}`);
+    if (!status.onboardingConcluido) {
+      window.location.href = '/chat.html';
+      return;
+    }
+  } catch (err) {
+    console.error('Onboarding check error:', err);
+  }
+
   setUserDisplay();
 
-  if (!topicoNome || topicoNome === 'Tópico') {
+  if (!topicoNome) {
     showError('Tópico não encontrado. Volte ao roadmap e tente novamente.');
     return;
   }
@@ -200,7 +212,6 @@ async function proximaQuestao() {
 async function mostrarResultado() {
   try {
     await API.post('/resultado-sessao', {
-      usuarioId: Auth.getUsuarioId(),
       topicoNome,
       materiaNome,
       totalQuestoes: questoes.length,
