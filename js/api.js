@@ -1,5 +1,7 @@
 const API = {
-   baseURL: 'https://studymind-l3ej.onrender.com',
+  baseURL: window.location.hostname === 'localhost'
+    ? 'http://localhost:8080'
+    : 'https://studymind-l3ej.onrender.com',
 
   getHeaders() {
     const token = localStorage.getItem('token');
