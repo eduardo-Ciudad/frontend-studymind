@@ -122,10 +122,9 @@ function initRegisterForm() {
 
     try {
       await API.post('/auth/registro', { nome, email, senha });
-      // Auto-login after registration
-      const loginData = await API.post('/auth/login', { email, senha });
-      Auth.saveSession(loginData.token);
-      window.location.href = '/chat.html';
+      alert.innerHTML = `<span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.4"/><path d="M4.5 7l2 2 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Conta criada com sucesso! Verifique seu email para ativar sua conta.</span>`;
+      alert.className = 'form-alert success';
+      setLoading(submitBtn, false);
     } catch (err) {
       showAlert(alert, err.message || 'Erro ao criar conta. Tente novamente.');
       setLoading(submitBtn, false);
