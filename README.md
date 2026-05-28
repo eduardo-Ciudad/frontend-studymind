@@ -6,106 +6,98 @@ O projeto foi desenvolvido com foco em experiência do usuário, organização v
 
 ---
 
-# Preview
+## Preview
 
-## Tela de Login
+### Tela de Login
 
-* Autenticação segura com JWT
-* Interface moderna e responsiva
-* Fluxo de login e cadastro integrado ao backend
+![StudyMind — Tela de Login](src/assets/screenshots/login.png)
 
-## Dashboard Inteligente
-
-* Métricas de desempenho
-* Taxa de acerto
-* Progresso semanal
-* Tópicos prioritários
-* Roadmap de estudos
+> Interface de autenticação com layout split-screen: apresentação do produto à esquerda e formulário de login/cadastro à direita.
 
 ---
 
-# Funcionalidades
+## Funcionalidades
 
-## Autenticação
+### Autenticação
 
-* Login e cadastro de usuários
-* Persistência de sessão com JWT
-* Controle de autenticação no frontend
-* Logout seguro
+- Login e cadastro de usuários
+- Persistência de sessão com JWT
+- Controle de autenticação no frontend
+- Logout seguro
 
-## Dashboard
+### Dashboard
 
-* Exibição de métricas em tempo real
-* Progresso semanal
-* Quantidade de questões respondidas
-* Taxa de acerto
-* Tópicos estudados
+- Exibição de métricas em tempo real
+- Progresso semanal
+- Quantidade de questões respondidas
+- Taxa de acerto
+- Tópicos estudados
 
-## Roadmap Inteligente
+### Roadmap Inteligente
 
-* Roadmap gerado por IA
-* Organização por semanas
-* Navegação dinâmica entre tópicos
+- Roadmap gerado por IA
+- Organização por semanas
+- Navegação dinâmica entre tópicos
 
-## Geração de Conteúdo com IA
+### Geração de Conteúdo com IA
 
 Integração com a API da Anthropic para:
 
-* geração de aulas
-* geração de questões
-* personalização por matéria
-* personalização por tópico
-* adaptação de dificuldade
+- Geração de aulas
+- Geração de questões
+- Personalização por matéria e tópico
+- Adaptação de dificuldade
 
-## Sistema de Tarefas
+### Sistema de Tarefas
 
-* Listagem de tarefas
-* Controle de progresso
-* Marcação de conclusão
-
----
-
-# Tecnologias Utilizadas
-
-* HTML5
-* CSS3
-* JavaScript
-* JWT Authentication
-* REST API
-* Anthropic API (Claude)
+- Listagem de tarefas
+- Controle de progresso
+- Marcação de conclusão
 
 ---
 
-# Arquitetura do Projeto
+## Tecnologias Utilizadas
+
+- HTML5
+- CSS3
+- JavaScript
+- JWT Authentication
+- REST API
+- Anthropic API (Claude)
+
+---
+
+## Arquitetura do Projeto
 
 ```txt
 Frontend → Spring Boot API → PostgreSQL
-                     ↓
-               Anthropic API
+                   ↓
+             Anthropic API
 ```
 
 ---
 
-# Integração com Backend
+## Integração com Backend
 
 O frontend consome uma API REST desenvolvida em Spring Boot.
 
 Principais integrações:
 
-* autenticação JWT
-* dashboard de desempenho
-* roadmap de estudos
-* geração de aulas
-* geração de questões
-* gerenciamento de tarefas
+- Autenticação JWT
+- Dashboard de desempenho
+- Roadmap de estudos
+- Geração de aulas
+- Geração de questões
+- Gerenciamento de tarefas
 
 ---
 
-# Estrutura do Projeto
+## Estrutura do Projeto
 
 ```txt
 src/
  ├── assets/
+ │    └── screenshots/
  ├── css/
  ├── js/
  ├── pages/
@@ -114,96 +106,94 @@ src/
 
 ---
 
-# Responsividade
-
-O projeto foi desenvolvido com foco em responsividade e experiência do usuário.
+## Responsividade
 
 Compatível com:
 
-* Desktop
-* Tablets
-* Dispositivos móveis
+- Desktop
+- Tablets
+- Dispositivos móveis
 
 ---
 
-# Objetivos do Projeto
+## Como Executar o Projeto
 
-O StudyMind foi criado com o objetivo de:
-
-* unir tecnologia e educação
-* aplicar IA em um cenário real
-* praticar desenvolvimento fullstack
-* explorar arquitetura de sistemas
-* evoluir habilidades em frontend e backend
-
----
-
-# Principais Aprendizados
-
-Durante o desenvolvimento do frontend, foram trabalhados conceitos como:
-
-* integração frontend/backend
-* autenticação JWT
-* consumo de APIs REST
-* manipulação dinâmica do DOM
-* gerenciamento de estado visual
-* tratamento de erros
-* alinhamento de contratos entre frontend e backend
-* debugging de aplicações fullstack
-
----
-
-# Próximas Melhorias
-
-* melhorias de acessibilidade
-* dark/light mode
-* gráficos mais avançados
-* otimizações de performance
-* melhorias de UX
-* responsividade avançada
-* integração em tempo real
-
----
-
-# Como Executar o Projeto
-
-## 1. Clone o repositório
+### 1. Clone o repositório
 
 ```bash
 git clone https://github.com/eduardo-Ciudad/studymind-frontend.git
 ```
 
-## 2. Acesse a pasta do projeto
+### 2. Acesse a pasta do projeto
 
 ```bash
 cd studymind-frontend
 ```
 
-## 3. Execute o projeto
+### 3. Execute o projeto
 
-Basta abrir o arquivo `index.html` ou utilizar uma extensão como Live Server.
-
----
-
-# Backend do Projeto
-
-O backend do StudyMind foi desenvolvido utilizando:
-
-* Java
-* Spring Boot
-* PostgreSQL
-* Flyway
-* JWT
-* JPA/Hibernate
+Abra o arquivo `index.html` diretamente no navegador ou utilize a extensão **Live Server** no VS Code.
 
 ---
 
-# Autor
+## Backend do Projeto
 
-Desenvolvido por Eduardo Ciudad Figueredo.
+O backend do StudyMind foi desenvolvido com:
+
+- Java 17
+- Spring Boot 3
+- PostgreSQL
+- Flyway
+- JWT
+- JPA / Hibernate
+
+Repositório: [studymind-backend](https://github.com/educiudad/studymind-backend)
 
 ---
 
-# Licença
+## Objetivos do Projeto
 
-Este projeto está sob a licença MIT.
+O StudyMind foi criado com o objetivo de:
+
+- Unir tecnologia e educação
+- Aplicar IA em um cenário real
+- Praticar desenvolvimento fullstack
+- Explorar arquitetura de sistemas
+- Evoluir habilidades em frontend e backend
+
+---
+
+## Principais Aprendizados
+
+- Integração frontend/backend
+- Autenticação JWT
+- Consumo de APIs REST
+- Manipulação dinâmica do DOM
+- Gerenciamento de estado visual
+- Tratamento de erros
+- Alinhamento de contratos entre frontend e backend
+- Debugging de aplicações fullstack
+
+---
+
+## Próximas Melhorias
+
+- Melhorias de acessibilidade
+- Dark/light mode
+- Gráficos mais avançados
+- Otimizações de performance
+- Melhorias de UX
+- Responsividade avançada
+- Integração em tempo real
+
+---
+
+## Autor
+
+Desenvolvido por **Eduardo Ciudad Figueredo**
+
+---
+
+## Licença
+
+Este projeto está sob a licença [MIT](LICENSE).
