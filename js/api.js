@@ -1,5 +1,5 @@
 const API = {
- // baseURL: 'http://localhost:8080',        // local
+    //baseURL: 'http://localhost:8080',        // local
    baseURL: 'https://studymind-l3ej.onrender.com', // render
 
 

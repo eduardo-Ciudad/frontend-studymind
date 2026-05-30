@@ -44,14 +44,24 @@ async function loadRoadmap(usuarioId) {
     const conteudo = JSON.parse(plano.conteudoJson);
     const semanaAtual = calcSemanaAtual(plano.criadoEm);
 
-    renderRoadmap(container, conteudo, semanaAtual, plano.criadoEm);
+    let concluidasSet = new Set();
+    try {
+      const concluidas = await API.get(`/tarefas/usuario/${usuarioId}?status=CONCLUIDA`);
+      concluidas.forEach(t => {
+        if (t.topicoNome) concluidasSet.add(t.topicoNome.toLowerCase());
+      });
+    } catch (err) {
+      console.error('Erro ao buscar tarefas concluídas:', err);
+    }
+
+    renderRoadmap(container, conteudo, semanaAtual, plano.criadoEm, concluidasSet);
   } catch (err) {
     console.error('Roadmap error:', err);
     showError(container, `Erro ao carregar o plano: ${err.message}`);
   }
 }
 
-function renderRoadmap(container, conteudo, semanaAtual, criadoEm) {
+function renderRoadmap(container, conteudo, semanaAtual, criadoEm, concluidasSet = new Set()) {
   const semanas = conteudo.semanas || [];
 
   if (!semanas.length) {
@@ -101,7 +111,7 @@ function renderRoadmap(container, conteudo, semanaAtual, criadoEm) {
           <span class="week-dates">${formatDateShort(inicioData)} – ${formatDateShort(fimData)}</span>
         </div>
         <div class="week-card">
-          ${renderSemanaContent(semana)}
+          ${renderSemanaContent(semana, concluidasSet)}
         </div>
       </div>`;
   });
@@ -110,7 +120,7 @@ function renderRoadmap(container, conteudo, semanaAtual, criadoEm) {
   container.innerHTML = html;
 }
 
-function renderSemanaContent(semana) {
+function renderSemanaContent(semana, concluidasSet) {
   const tarefas = semana.tarefas || [];
   if (!tarefas.length) {
     return '<div class="week-empty">Sem tarefas definidas para esta semana.</div>';
@@ -130,18 +140,33 @@ function renderSemanaContent(semana) {
         <span class="subject-icon">${SUBJECT_ICON}</span>
         <span class="subject-name">${escapeHtml(materia)}</span>
       </div>
-      ${tasks.map(t => renderTaskRow(t)).join('')}
+      ${tasks.map(t => renderTaskRow(t, concluidasSet)).join('')}
     </div>`).join('');
 }
 
-function renderTaskRow(t) {
+function renderTaskRow(t, concluidasSet = new Set()) {
   const tipo = t.tipo || '';
   const cfg = TIPO_CONFIG[tipo] || { label: tipo, color: 'var(--text-muted)', bg: 'var(--bg-hover)' };
   const badgeStyle = `color:${cfg.color};background:${cfg.bg};border:1px solid ${cfg.color}33;`;
   const meta = t.meta ? `<span class="task-meta-text">Meta: ${t.meta}</span>` : '';
+  const isConcluida = t.topicoNome && concluidasSet.has(t.topicoNome.toLowerCase());
+
+  const checkIcon = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0"><circle cx="7" cy="7" r="6" stroke="#34d399" stroke-width="1.4"/><path d="M4.5 7l2 2 3-3" stroke="#34d399" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
   if (t.topicoNome) {
     const args = `this,'${escapeAttr(t.topicoNome)}','${escapeAttr(t.materiaNome || '')}',${t.meta || 5},'${escapeAttr(t.nivel || 'MEDIO')}'`;
+
+    if (isConcluida) {
+      return `
+        <div class="task-row task-row-clickable task-row-concluida" onclick="startAula(${args})" title="Concluída — clique para refazer">
+          ${checkIcon}
+          <span class="task-topic" style="opacity:0.5;text-decoration:line-through">${escapeHtml(t.topicoNome)}</span>
+          ${tipo ? `<span class="task-tipo" style="${badgeStyle}">${escapeHtml(cfg.label)}</span>` : ''}
+          ${meta}
+          <span style="margin-left:auto;font-size:11px;color:#34d399;white-space:nowrap">Refazer</span>
+        </div>`;
+    }
+
     return `
       <div class="task-row task-row-clickable" onclick="startAula(${args})">
         <span class="task-arrow">→</span>
