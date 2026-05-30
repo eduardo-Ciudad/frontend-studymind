@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyMind — Verificar Email</title>
+  <link rel="stylesheet" href="./css/global.css" />
+  <style>
+    .verify-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-lg);
+      background: var(--bg-primary);
+    }
+
+    .verify-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-3xl) var(--space-2xl);
+      box-shadow: var(--shadow-card);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      animation: scaleIn 0.35s ease forwards;
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.96) translateY(8px); }
+      to   { opacity: 1; transform: scale(1)    translateY(0);   }
+    }
+
+    .verify-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-2xl);
+      text-decoration: none;
+    }
+
+    .verify-logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-primary);
+    }
+
+    .verify-logo-text {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text-primary);
+    }
+
+    .status-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-lg);
+    }
+
+    .status-icon.loading {
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+    }
+
+    .status-icon.success {
+      background: rgba(52, 211, 153, 0.1);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+    }
+
+    .status-icon.error {
+      background: rgba(248, 113, 113, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.25);
+    }
+
+    .status-icon .spinner {
+      width: 28px;
+      height: 28px;
+      border-width: 2.5px;
+    }
+
+    .verify-title {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-sm);
+    }
+
+    .verify-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-xl);
+    }
+
+    .state-panel {
+      display: none;
+    }
+
+    .state-panel.active {
+      display: block;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .btn-verify {
+      width: 100%;
+      padding: 12px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      .verify-card {
+        padding: var(--space-2xl) var(--space-lg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="verify-page">
+  <div class="verify-card">
+
+    <a href="./login.html" class="verify-logo">
+      <div class="verify-logo-icon">
+        <svg width="18" height="18" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="4" r="2.5" fill="currentColor"/>
+          <circle cx="3.5" cy="17" r="2.5" fill="currentColor"/>
+          <circle cx="18.5" cy="17" r="2.5" fill="currentColor"/>
+          <line x1="11" y1="6.5" x2="3.5" y2="14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <line x1="11" y1="6.5" x2="18.5" y2="14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <line x1="3.5" y1="17" x2="18.5" y2="17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="verify-logo-text">StudyMind</span>
+    </a>
+
+    <!-- Estado: carregando -->
+    <div class="state-panel active" id="state-loading">
+      <div class="status-icon loading">
+        <div class="spinner"></div>
+      </div>
+      <h2 class="verify-title">Verificando seu email…</h2>
+      <p class="verify-subtitle">Aguarde enquanto confirmamos sua conta.</p>
+    </div>
+
+    <!-- Estado: sucesso -->
+    <div class="state-panel" id="state-success">
+      <div class="status-icon success">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="14" r="11" stroke="#34d399" stroke-width="1.8"/>
+          <path d="M9 14l3.5 3.5 6.5-7" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 class="verify-title">Email verificado!</h2>
+      <p class="verify-subtitle">Sua conta foi ativada com sucesso. Agora você pode entrar na plataforma.</p>
+      <a href="./login.html" class="btn btn-primary btn-verify">Ir para o login</a>
+    </div>
+
+    <!-- Estado: erro -->
+    <div class="state-panel" id="state-error">
+      <div class="status-icon error">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="14" r="11" stroke="#f87171" stroke-width="1.8"/>
+          <line x1="9.5" y1="9.5" x2="18.5" y2="18.5" stroke="#f87171" stroke-width="2" stroke-linecap="round"/>
+          <line x1="18.5" y1="9.5" x2="9.5" y2="18.5" stroke="#f87171" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h2 class="verify-title" id="error-title">Verificação falhou</h2>
+      <p class="verify-subtitle" id="error-message">Não foi possível verificar seu email.</p>
+      <a href="./login.html" class="btn btn-secondary btn-verify">Voltar para o login</a>
+    </div>
+
+  </div>
+</div>
+
+<script src="./js/api.js"></script>
+<script>
+  (async () => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+
+    function showState(id) {
+      document.querySelectorAll('.state-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function showError(title, message) {
+      document.getElementById('error-title').textContent = title;
+      document.getElementById('error-message').textContent = message;
+      showState('state-error');
+    }
+
+    if (!token) {
+      showError(
+        'Link inválido',
+        'Nenhum token de verificação encontrado na URL. Use o link enviado para o seu email.'
+      );
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API.baseURL}/auth/verificar?token=${encodeURIComponent(token)}`);
+      const text = await response.text();
+
+      if (response.ok) {
+        showState('state-success');
+        return;
+      }
+
+      const lower = text.toLowerCase();
+      if (lower.includes('expirado') || lower.includes('expired')) {
+        showError(
+          'Token expirado',
+          'O link de verificação expirou. Solicite um novo link pelo suporte.'
+        );
+      } else if (
+        lower.includes('inválido') || lower.includes('invalido') ||
+        lower.includes('invalid') || lower.includes('não encontrado') ||
+        lower.includes('not found')
+      ) {
+        showError(
+          'Token inválido',
+          'O link de verificação não é válido. Verifique se você copiou o link corretamente.'
+        );
+      } else {
+        showError(
+          'Erro na verificação',
+          text || 'Ocorreu um erro inesperado. Tente novamente mais tarde.'
+        );
+      }
+    } catch {
+      showError(
+        'Erro de conexão',
+        'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.'
+      );
+    }
+  })();
+</script>
+</body>
+</html>
