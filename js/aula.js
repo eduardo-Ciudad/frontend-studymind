@@ -9,6 +9,7 @@ let questoes = [];
 let questaoAtual = 0;
 let acertos = 0;
 let respondida = false;
+let usuarioId = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
   if (!Auth.isAuthenticated()) {
@@ -16,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  const usuarioId = Auth.getUsuarioId();
+  usuarioId = Auth.getUsuarioId();
 
   try {
     const status = await API.get(`/onboarding/status/${usuarioId}`);
@@ -224,6 +225,21 @@ async function mostrarResultado() {
     });
   } catch (err) {
     console.error('Erro ao salvar resultado:', err);
+  }
+
+  const pctFinal = questoes.length > 0 ? (acertos / questoes.length) : 0;
+  if (pctFinal >= 0.8 && usuarioId) {
+    try {
+      const tarefas = await API.get(`/tarefas/usuario/${usuarioId}?status=PENDENTE`);
+      const tarefa = tarefas.find(t =>
+        (t.topicoNome || '').toLowerCase() === topicoNome.toLowerCase()
+      );
+      if (tarefa) {
+        await API.put(`/tarefas/${tarefa.id}`, { status: 'CONCLUIDA' });
+      }
+    } catch (err) {
+      console.error('Erro ao marcar tarefa como concluída:', err);
+    }
   }
 
   const card = document.getElementById('questao-card');

@@ -161,35 +161,12 @@ function renderTaskRow(t) {
 }
 
 async function startAula(el, topicoNome, materiaNome, meta, nivel) {
-  const url = `/aula.html?topicoNome=${encodeURIComponent(topicoNome)}&materiaNome=${encodeURIComponent(materiaNome)}&meta=${encodeURIComponent(meta)}&nivel=${encodeURIComponent(nivel)}`;
-  const usuarioId = Auth.getUsuarioId();
-
-  const originalHtml = el.innerHTML;
   el.style.pointerEvents = 'none';
   el.style.opacity = '0.6';
   const topicEl = el.querySelector('.task-topic');
   if (topicEl) topicEl.textContent = 'Abrindo aula...';
 
-  try {
-    const tarefas = await API.get(`/tarefas/usuario/${usuarioId}?status=PENDENTE`);
-    const tarefa = tarefas.find(t =>
-      (t.topicoNome || '').toLowerCase() === topicoNome.toLowerCase()
-    );
-    if (tarefa) {
-      try {
-        await API.put(`/tarefas/${tarefa.id}`, { status: 'CONCLUIDA' });
-      } catch (err) {
-        console.error('Erro ao concluir tarefa:', err);
-      }
-    }
-  } catch (err) {
-    console.error('Erro ao buscar tarefas:', err);
-    el.innerHTML = originalHtml;
-    el.style.pointerEvents = '';
-    el.style.opacity = '';
-    return;
-  }
-
+  const url = `/aula.html?topicoNome=${encodeURIComponent(topicoNome)}&materiaNome=${encodeURIComponent(materiaNome)}&meta=${encodeURIComponent(meta)}&nivel=${encodeURIComponent(nivel)}`;
   window.location.href = url;
 }
 
@@ -216,6 +193,14 @@ function showError(container, msg) {
 }
 
 /* ── Helpers ── */
+function calcSemanaAtual(criadoEm) {
+  const base = new Date(criadoEm);
+  const agora = new Date();
+  const diffMs = agora - base;
+  const diffSemanas = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 7));
+  return diffSemanas + 1;
+}
+
 function calcDiasRestantes(dataExame) {
   const exame = new Date(dataExame);
   const agora = new Date();
